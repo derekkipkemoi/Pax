@@ -1,13 +1,26 @@
 'use client'
-import React, { useState } from 'react'
+import React, { use, useId, useState } from 'react'
 import axios from 'axios'
+import { useEffect } from "react";
 import OtpInput from 'react-otp-input';
 export default function Home() {
-    let userId = JSON.parse(localStorage.getItem('userId') ?? "");
+ 
     const [errors, setErrors] = useState({
         OTP: ''
     })
+    const [id, setId] = useState('');
     const [otp, setOtp] = useState('');
+    useEffect(() => {
+        
+    }, [])
+
+
+    useEffect(() => {
+        let userId = JSON.parse(localStorage.getItem('userId') ?? "");
+         setId(userId);
+      }, []);
+
+
     const postOTP = async(userId: String, OTP: String)=>{
         await axios.patch("https://paxserver.onrender.com/user/updateDetails", {
             userId: userId, OTP: OTP
@@ -19,7 +32,7 @@ export default function Home() {
     if (otp.length === 6) {
         console.log("complete")
         errors.OTP = "Enter Correct 2FA Code!"
-        postOTP(userId,otp)
+        postOTP(id,otp)
     }
     return (
         //paxfull login page
