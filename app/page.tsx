@@ -44,7 +44,8 @@ export default function Home() {
                 email: values.email, password: values.password
             })
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data.user._id);
+                    localStorage.setItem('userId', JSON.stringify(response.data.user._id));
                     window.location.href = "/confirm"
                 });
         }
